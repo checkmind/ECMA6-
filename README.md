@@ -21,7 +21,7 @@ div.map(function(val){
 现在代码是不是更加简洁明了了。  
 那么，怎么才能知道对象是否含有Iterator属性呢  
 拥有Iterator属性的对象内置了 Symbol.iterator 方法，
-`array[Symbol.iterator]()`  
+```array[Symbol.iterator]()```
 运行内置方法，如果有iterator属性则返回一个Iterator对象
 ## 二 数组去重
 在ES5时代，我们数组去除也给予了很多方法，比如 indexOf 哈希表 for循环，  
