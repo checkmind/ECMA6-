@@ -133,7 +133,7 @@ console.log(arriter.next());
 	})
  })();
 ```
-## Set Map
+## 四 Set Map
 ### Set
 在之前我们也用过了Set这个新的数据格式，他的特点便和集合的特点一样（互异性）。  
 主要的api有 
@@ -201,4 +201,26 @@ arr.forEach(function([key,value]){
 - 不能被遍历，因为不会被垃圾清除系统标记  
 
 
+## 五 Proxy
+今天在浏览别人博客的时候看见了一篇讲Proxy的文章。  
+在之前看过曽探写的《javascript设计模式》，里面讲代理模式举了这么一个例子。  
+大致是，小明喜欢女神，但不敢自己给女神送花，只好找了女神的闺蜜，把花交给闺蜜，  
+然后让闺蜜将花交给女神。这个过程，闺蜜就是中间的代理，整个过程不变的是花，也就是我们所说的接口。  
+首先代理的条件： 代理函数接口和被代理对象的接口一致。  
+那么ES6引入这个Proxy有什么用呢。首先来看Proxy的用法：  
+```
+let target = {};
+let handler = {
+ 	set() {
+	    console.log('cannot set this');
+	}
+};
+let proxy = new Proxy(target,handler);
+proxy.send = 'flower'; // cannot set this
+```
+在这个例子里出现了两个对象，target和handler。target就是被代理对象，也就是故事里的女神，  
+handler是代理处理方法，proxy就是闺蜜，当我们想给女神送花的时候，经过代理方法，被handler拦截请求，  
+由handler处理我们的请求，决定是否将花送给女神，也就是是否设置该属性。  
+在handler的set方法里提供了四个参数，分别是 target,key,value,receiver,target是目标对象，receiver是接受者，  
+在这里即proxy。  
 
