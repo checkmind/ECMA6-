@@ -218,9 +218,32 @@ let handler = {
 let proxy = new Proxy(target,handler);
 proxy.send = 'flower'; // cannot set this
 ```
-在这个例子里出现了两个对象，target和handler。target就是被代理对象，也就是故事里的女神，  
-handler是代理处理方法，proxy就是闺蜜，当我们想给女神送花的时候，经过代理方法，被handler拦截请求，  
+在这个例子里出现了两个对象，target和handler。target就是被代理对象，也就是故事里的女神，   
+handler是代理处理方法，proxy就是闺蜜，当我们想给女神送花的时候，经过代理方法，被handler拦截请求，   
 由handler处理我们的请求，决定是否将花送给女神，也就是是否设置该属性。  
-在handler的set方法里提供了四个参数，分别是 target,key,value,receiver,target是目标对象，receiver是接受者，  
-在这里即proxy。  
+在handler的set方法里提供了四个参数，分别是 target,key,value,receiver,target是目标对象，receiver是接受者，    
+在这里即proxy。    
+Proxy不止能代理对象，它还可以代理函数。  
+```
+var obj = {
+	apply(target,binding,args){
+		console.log("call me")
+	},
+	construct(target,args){
+		console.log(args)
+		return {value:args[0]}
+	},
+}
+var obj2 = new Proxy(function(ar1,ar2){
+	return ar1+ar2
+},obj)
+
+obj2(2,3)
+var obj3 = new obj2(3,4)
+console.log(obj3)
+```
+此时，当作为普通函数调用函数时，实际上调用了拦截器的apply方法，而此时的binding则指向全局。  
+当作为构造器使用时，则调用了construct方法。
+## 六 Reflect
+
 
