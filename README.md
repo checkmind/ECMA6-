@@ -245,5 +245,51 @@ console.log(obj3)
 此时，当作为普通函数调用函数时，实际上调用了拦截器的apply方法，而此时的binding则指向全局。  
 当作为构造器使用时，则调用了construct方法。
 ## 六 Reflect
+____________________________________________________________________
+## 七 Object
+### Object.assign()   注意有坑
+这个方法用来对指定对象的“深拷贝”，因为js里面对象都是基于引用传值的。
+```
+let obj = {
+    name : 'dh'
+};
+let obj2 = obj;
+obj2.name = 'zqq';
+console.log(obj2===obj1);  //true
+```
+上面这段代码就说明了，js的对象传值是基于引用的，新创建的obj2并没有开辟一个新的内存区  
+而是将指针指向了{name:'dh'},(这里不是obj，因为obj也是指向了左边这个对象)。  
+让我们用Object.assign() 重写一遍。  
+```
+let obj = {
+    name : 'dh'
+};
+let obj2 = Object.assign({},obj);
+obj2.name = 'zqq';
+console.log(obj2===obj); // false
+```
+可以看到，改变了obj2的属性之后，obj的属性并没有受到影响。如果到这里，你就以为他是深拷贝，那就太天真了。  
+我们再来看一个例子。  
+```
+var b = {
+	name : 'b',
+	num : 2,
+	title : {
+		name : 'bname'
+	}
+}
+var c = Object.assign({},b);
+c.title.name = 'c';
+console.log(c,b) //可以看到两个结构一样
+console.log(c===b); //但又不全等
+```
+到这里就很好奇了，b.title.name 确实由于 c.title.name的赋值改变到了，也就是说，在title这一层级，  
+是浅克隆的，但是c又不全等于b，这是由于，在name和num层级是深克隆的，这就是assign的蛋疼之处，也就是说，  
+他只支持对象的第一层深度克隆，其他层采用浅克隆。  
+关于这个问题，我也去找个官方的解释。  
+*针对深度拷贝，需要使用其他方法，因为 Object.assign() 拷贝的是属性值。假如源对象的属性值是一个指向对象的引用，它也只拷贝那个引用值。*   ---MDN
+ `https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign`  
+ 也就是说，如果我们想实现真正的深度拷贝，
+
 
 
