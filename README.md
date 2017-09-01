@@ -289,7 +289,56 @@ console.log(c===b); //但又不全等
 关于这个问题，我也去找个官方的解释。  
 *针对深度拷贝，需要使用其他方法，因为 Object.assign() 拷贝的是属性值。假如源对象的属性值是一个指向对象的引用，它也只拷贝那个引用值。*   ---MDN
  `https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign`  
- 也就是说，如果我们想实现真正的深度拷贝，
+ 也就是说，如果我们想实现真正的深度拷贝，还是需要之前的方法。
+ ### 深度拷贝
+ 让我回忆一下之前深度拷贝的方法。  
+ 1，JSON.parse 和 JSON.stringify
+ ```
+ let obj = {
+ 	name : 'duhao',
+	son : 'xiaochuizi'
+ };
+ let obj2 = JSON.parse(JSON.stringify(obj));
+ ```
+ 这个方法实现很简单，但它首先将对象转为字符串，再将字符串转为对象，  
+ 因此效率很低。我们可以用第二种方法。
+ 2, construct 和 typeof
+ ```
+ let obj = {
+ 	name : 'duhao',
+	son : 'xiaochuizi'
+ };
+ function deepClone(obj){
+	var result;
+	if(obj.constructor===Object){
+		result = {};
+	}
+	else if(obj.constructor===Array){
+		result = [];
+	}
+	else
+		return result;
+	for(var key in obj){
+		if(typeof obj[key]==='object'){
+			result[key] = deepClone(obj[key]);
+		}else{
+			result[key] = obj[key];
+		}
+	}
+	return result;
+}
+deepClone(obj)
+ ```
+这个方法的原理是，如果是基本数据类型，则直接复制，因为js会开辟新的内存空间，但是  
+如果是引用类型，Object和Array，那就再进入对象内部，直到找到基本数据类型，然后复制。  
+如此回调。则完成了一层层克隆。这个方法的效率比上面的快不少。
+```
+default: 1706.0478515625ms
+default: 340.9189453125ms
+```
+分别运行十万次的比较，差距还是很明显的！！！  
+
+``所以，深度拷贝请务必用以上方式。Object.assign()不具备深度拷贝功能``
 
 
 
