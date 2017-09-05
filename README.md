@@ -339,6 +339,26 @@ default: 340.9189453125ms
 分别运行十万次的比较，差距还是很明显的！！！  
 
 ``所以，深度拷贝请务必用以上方式。Object.assign()不具备深度拷贝功能``
+## Class  
+其实这里的Class就是prototype的语法糖，它只是看上去更像面向对象里的类，如果以前学过typescript，则  
+会发现，这像极了typescript（应该说typescript像极了它）。关于它的基本使用。  
+```
+class person{
+	constructor (name,year){
+		this.name = name;
+		this.year = year;
+	}
+	callName (){
+		var that = this;
+		console.log(`${this.name} is ${this.year} old`);
+	}
+}
+var me = new person('duhao',19);
+me.callName();
+```
+constructor 就好比面向对象语言里面的构造函数，其实这里实际上指函数的构造类。  
+打印类的construct属性，发现是： `ƒ Function() { [native code] }` ，也说明了Class的实现与Function实现无异。  
+
 
 
 
