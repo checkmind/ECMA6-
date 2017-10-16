@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src='http://bh.gameabc.com/resources/lib/jquery-1.7.1.min.js'></script>
+	<title></title>
+	<style type="text/css">
+		 .container {
+		    display:flex;
+		}
+		.main{
+		    flex-grow: 1;
+		    background-color:#eee;
+		    height: 200px;
+		}
+		.left{
+		    flex-basis:200PX;
+		    order:-1;
+		    background-color: lightblue;
+		}
+		.right {
+		    flex-basis: 300px;
+		    background-color:lightblue;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="main"></div>
+	<div class="left"></div>
+	<div class="right"></div>
+</div>
+</body>
+<script type="text/javascript">
+	// var fn = ()=>{
+	// 	for(var i = 0;i<5;i++){
+	// 		setTimeout(()=>{
+	// 			console.log(i);
+	// 		},300,i)
+	// 	}
+	// }
+	// //fn()
+	// for(var i =0;i<5;i++){
+	// 	setTimeout(function(i){
+	// 		console.log(i);
+	// 	},300,i)
+	// }
+	// for(let i =0;i<5;i++){
+	// 	setTimeout(function(){
+	// 		console.log(i)
+	// 	},300)
+	// }
+
+	// function fn(){
+	// 	return ()=>{
+	// 		return ()=>{
+	// 			return ()=>{
+	// 				console.log(this.id);
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// fn.call({id:3})()()();
+	// fn().call({id:4})();
+
+	// function fn(){
+	// 	constructor(function(){
+	// 		console.log(super)
+	// 	})
+	// }
+	// fn();
+/*
+	class a{
+		ac  1;
+		constructor(){
+			console.log('build a')
+		}
+	}
+	class b extends a{
+		constructor(){
+			console.log(new.target)
+			super();
+
+		}
+	}
+	function bc(){
+		console.log(new.target)
+	}
+	new bc();
+	var bd = new b();
+	console.log(bd.ac)
+	*/
+
+	
+	// var arr = [1,2,3,4]
+	// arr.reduce((a,b)=>{
+	// 	console.log(a,b);
+	// 	return a;
+	// })
+	// arr.forEach(function(val,i){
+	// 	console.log(val,i)
+	// })
+	// arr.filter(function(val){
+	// 	return val>2;
+	// })
+	
+	// function fn(i){
+	// 	console.log(i)
+	// }
+	// function fn2(){
+	// 	console.log(this.b)
+	// }
+	// fn2.bind({b:3})();
+	
+	// for(var i =0;i<5;i++){
+	// 	setTimeout(fn.bind(this,i),500*i)
+	// }
+// var obj = [1,2,3]
+// var body = document.querySelectorAll('body');
+
+// console.log(body)
+// body=Array.from(body);
+// console.log(body)
+// body.map(function(val){
+// 	console.log(val)
+// })
+// var obj = [1,2,3]
+// let div = document.querySelectorAll('body')
+// console.log(Symbol.iterator in obj)
+// function removeRepeat(arr){
+// 	var hash = {};
+// 	var newArray = [];
+// 	for(var i = 0,len=arr.length;i<len;i++){
+// 		if(hash[arr[i]])
+// 			break;
+// 		else{
+// 			hash[arr[i]] = true;
+// 			newArray.push(arr[i]);
+// 		}
+// 	}
+// 	return newArray;
+// }
+// var arr = [2,3,4,4,4]
+// set = new Set(arr);
+// function removeRepeat(arr){
+//   return Array.from( new Set(arr) );
+// }
+// console.log(removeRepeat(arr))
+// var target = {
+
+// }
+// var handler = {
+// 	set (){
+// 		console.log('can not set！')
+// 	}
+// }
+// var proxy = new Proxy(target,handler);
+// proxy.color = 'red';
+// console.log(target,handler);
+
+//console.log(Symbol.iterator in string)
+
+// let arrx = [0];
+// arrx[2] = 1;
+// Array.prototype.name = 'duhao';
+// arrx[1] = {
+// 	ad : 2
+// }
+
+// for(var i in arrx){
+// 	console.log(arrx[i])
+// }
+	
+//  var fn = (function(){
+//  	var object = [Array,String];
+// 	object.map(function(val){
+// 		val.prototype.iterator = function(){
+// 			var index = -1,
+// 				that = this;
+// 			return {
+// 				next (){
+// 					index++;
+// 					return (index>=that.length)?undefined : that[index]
+// 				}
+// 			}
+// 		};		
+// 	})
+//  })();
+
+
+// var arr = [2,3,4];
+// var obj = 'dsfafdkfj'
+// arriter = arr.iterator();
+// console.log(arriter.next());
+// console.log(arriter.next());
+// console.log(arriter.next());
+// console.log(arriter.next());
+//  obj = obj.iterator();
+// console.log(obj.next())
+// var body = document.getElementsByTagName('body');
+// arriter = body.iterator();
+// console.log(arriter.next());
+// for(var i in arr){
+// 	console.log(arr[i])
+// }
+
+
+// var set = new Set();
+// set.add(2);
+// set.add(4);
+// set.add(3);
+// set.add(2);
+// console.log(set.get(0))
+// for(let i of set)
+// 	console.log(i)
+// var weakSet = new WeakSet();
+// var obj = {
+
+// }
+// var it = {
+
+// }
+// weakSet.add(2);
+// weakSet.add(obj);
+// weakSet.add(it);
+// console.log(weakSet)
+
+
+// var map = new Map([['names','lala','lala'],['name','heiheihei','sss']]);
+
+// const arr = [['names','lala','lala'],['name','heiheihei','sss']];
+// arr.forEach(function([key,value]){
+// 	map.set(key,index);
+// })
+
+// var map = new Map();
+// var o = {
+// 	name : 'duhao'
+// }
+// map.set(o);
+// console.log(map.has(o));
+// console.log(map.get(o));
+
+// var obj = [];
+// Array.prototype.c= function(){
+
+// };
+// var bool = obj.hasOwnProperty("c");
+// console.log('c' in obj)
+
+// var obj = {
+// 	a : 1 ,
+// 	b : 2 
+// }
+// var obj2 = Object.create(obj,{
+// 	a : {
+
+// 		set (val){
+// 			console.log("set a"+val);
+// 			document.querySelectorAll('input')[0].value = val;
+			
+// 			return val
+// 		}
+		
+// 	}
+// });
+// obj2.a = 5;
+// console.log(obj2.a)
+// console.log(obj.a)
+
+// var mySymbol =Symbol('name');
+// var mySymbol1 = Symbol('name1');
+// var a = {
+// 	[mySymbol1] : 'leihao'
+// };
+// a[mySymbol] = 'duhao';
+
+// console.log(a);
+
+// for(var i = 0;i<4;i++){
+// 	var j = i;
+// 	setTimeout(function(){
+
+// 		console.log(j)
+// 	})
+// }
+// function arr(){
+// 	for(let i = 0;i<4;i++){
+
+// 	setTimeout(function(){
+		
+// 		console.log(j)
+// 	})
+// }
+// }
+
+
+// var promise = new Promise(function(resolve,reject){
+// 	setTimeout(function(){
+// 		resolve('duhao');
+// 	},1000)
+// }).then(function(name){
+// 	console.log(name);
+// })
+
+// function Pfn(){
+// 	console.log(1);
+// }
+// var p = {};
+// p._proto_=Pfn.prototype;
+// Pfn.call(p);
+// console.log(p._proto_===Pfn.prototype)
+// console.log(Pfn.prototype)
+
+// var target = {
+// 	a : 1
+// };
+// var handler = {
+// 	set (target, key,value,receiver){
+// 		console.log(target,key,value,receiver)
+// 		target.name = 'leihao'
+// 		return value;
+// 	},
+// 	get a(){
+// 		console.log('lala')
+// 	}
+// };
+// var proxy = new Proxy(target,handler)
+// proxy.name = 'duhao';
+
+// console.log(target)
+// console.log(handler)
+// console.log(proxy)
+
+
+// var target = {
+//  	a : 1,
+//  	c : null
+//  };
+// Object.defineProperty(target,'c',{
+// 	set(val){
+// 		target.a = 2;
+// 		return val 
+// 	}
+// })
+// Reflect.defineProperty(target,'a',{
+// 	set(val){
+// 		target.a =  val;
+// 		return val;
+// 	}
+// })
+// Reflect.c = 3;
+// console.log(target)
+// let target = {};
+// let handler = {
+//  	set(target, key, value, receiver) {
+//  		console.log(receiver);
+// 	    console.log('cannot set this');
+// 	}
+// };
+
+
+// var proxys = new Proxy({},{
+// 	set(){
+// 		console.log(222)
+// 	}
+// });
+// let obj = Object.create(proxys);
+// let obj2= {};
+// function fn(){
+
+// }
+// obj2.prototype = proxys;
+
+// obj.c = 2;
+// obj2.c=3;
+// console.log(obj,obj2)
+// var obj = {
+// 	apply(target,binding,args){
+// 	},
+// 	construct(target,args){
+// 		console.log(args);
+// 		return {value:args[0]};
+// 	},
+// }
+// var obj2 = new Proxy(function(ar1,ar2){
+// 	return ar1+ar2;
+// },obj);
+// obj2(2,3);
+// var obj3 = new obj2(3,4);
+// console.log(obj3)
+
+// var arr = [3,4,5,5];
+// var arr2 = arr.reduce(function(value,val2){
+// 	return value+val2;
+// },3);
+
+// var pipe = (function(){
+// 	let stack = [];
+// 	return function(num,that){
+// 		let obj = new Proxy({},{
+// 			get(target,key,value){
+// 				if(key==='get'){
+// 					return stack.reduce(function(...arg){
+// 						return arg[1](arg[0])
+// 					},num)
+// 				}
+// 				stack.push(that[key])
+// 				return obj;
+// 			}
+// 		});
+// 		return obj;
+// 	}
+// })();
+// var add1 = num => ++num;
+// var add2 = num => num*2;
+// var num = pipe(4,window).add1.add2.get;
+// console.log(num)
+
+// let re = {
+// 	a : 'c'
+// }
+// console.log(Reflect.has(re,'a'));
+// let targets = {};
+// let proxy = new Proxy(targets,{
+// 	set(target,value,key,receivre){
+// 		let success = Reflect.set(target,value,key,receivre);
+// 		console.log("you change it");
+// 		return success;
+// 	}
+// });
+// proxy.a = 2;
+// Function.prototype.curring = function(){
+// 	let that = this;
+// 	return function(){
+// 		return Function.prototype.apply.call(that,arguments);
+// 	}
+// }
+// var string = {};
+// var smap = Array.prototype.push.curring();
+// smap(string,undefined,[2]);
+// console.log(string)
+// console.log(Function.prototype.apply.call(Math.floor, undefined, [1.75]) )// 1
+
+
+// var arr = [1,1,1,1,1].map(function(val){
+// 	return new Promise(function(resolve){
+// 		setTimeout(function(){
+// 			resolve('ok');
+// 		},val*1000)
+// 	})
+// })
+
+// Promise.all(arr)
+// .then(function(val){
+// 	console.log(val)
+// 	return val;
+// })
+// let obj = {
+// 	then : function(){
+// 		resolve
+// 	}
+// }
+// Promise.resolve(obj)
+
+// function* fn(){
+// 	yield setTimeout(function(){
+		
+// 	},1000);
+// 	yield 2;
+// 	yield 3;
+// }
+// var fn2 = fn();
+// console.log(fn2.next());
+// console.log(fn2.next());
+// console.log(fn2.next());
+// /*
+// In a small town the population is p0 = 1000 at the beginning of a year. The population regularly increases by 2 percent per year and moreover 50 new inhabitants per year come to live in the town. How many years does the town need to see its population greater or equal to p = 1200 inhabitants?
+// */
+// function nbYear(p0, percent, aug, p) {
+//     // your code
+//     let year = 0,
+//     	start = p0;
+//     for(let i =0;;i++){
+//       p0 = p0+p0*percent*0.01+aug;
+//       if(Math.floor(p0)>=p)
+//       	return i
+//     }
+// }
+// let it = nbYear(1500, 5, 100, 5000);
+
+// function arr_diff(arr1,arr2){
+// 	let arr = [];
+// 	arr1.map(function(val){
+// 		if(arr2.indexOf(val)===-1){
+// 			arr.push(val);
+// 		}
+// 	})
+// 	return arr;
+// }
+
+// var uniqueInOrder=function(iterable){
+//   //your code here - remember iterable can be a string or an array
+//   var arr;
+//   var now = [];
+//   if(iterable.constructor==Object)
+//   	return [];
+//   if(iterable.constructor==Array){
+//   	arr = iterable;
+//   }
+//   else{
+// 	  if(iterable.split)
+// 	  	arr = iterable.split("")
+// 	  else{
+// 	  	arr = String.prototype.split.call(iterable,"");
+// 	  }
+//   }
+//   if(!arr.length&&arr.length===0)
+//   	return [];
+//   return arr.filter(function(arr1,arr2){
+//       if(arr1===arr2)
+//       	return arr2;
+//       else{
+//         now.push(arr1);
+//         return arr2;
+//       }
+//   });
+//   now.push(arr.pop())
+//   return now;
+// }
+// let now = uniqueInOrder([2,3,4]);
+// function filter_list(l) {
+//   return l.filter(function(v) {return typeof v == 'number'})
+// }
+// let it = filter_list([-1,2,'aasf','1','123',123])
+// console.log(it)
+
+
+// function fn(name){
+// 	return `${name}`
+// }
+// var countBits = function(n) {
+//   // Program Me
+//   let n1 = n.toString(2),
+//       num = 0;
+//    console.log(n1)
+//   Array.prototype.map.call(n1,function(val){
+//       (+val==1)?num++:num=num
+//   });
+//   return num;
+// };
+// function isTriangle(a,b,c)
+// {
+//    let arr = [];
+//    if(a+b>c&&a+c>b&&b+c>a)
+//    		return true;
+//    	if(a-b<c&&b-c<a&&a-c<b)
+//    return true;
+// return false;
+// }
+
+// function longest(s1, s2) {
+//   let set;
+//   s1 = s1.split('');
+//   s2 = s2.split('');
+//   set = Array.from(new Set(...s1.split('')));
+//   console.log(set)
+// }
+// longest('sddfaf','afsf')
+
+// function* demo() {
+
+
+//   console.log('Hello' + (yield)); // OK
+//   console.log('Hello' + (yield 123)); // OK
+// }
+// var that = demo();
+// that.next();
+// that.next();
+
+// var myIterable = {
+// 	3 : 3
+// };
+// myIterable[Symbol.iterator] = function* (){
+// 	yield 1;
+// 	yield 2;
+// }
+// for(var i of myIterable)
+// 	console.log(i)
+
+// function firstNonRepeatingLetter(s) {
+//   let right = null;
+//   let now;
+//   var re;
+//   while(s.length!=0){
+//       right = s.charAt(0)
+//       s = s.slice(1,s.length);
+//       re = new RegExp(right)
+     
+//       if(!re.test(s)){
+//         return right;
+//       }else{
+//       	s = s.replace(right,'');
+//       }
+//   }
+//   return '';
+// }
+// let it = firstNonRepeatingLetter('∞§ﬁ›ﬂ∞§')
+// console.log(it)
+
+// function calc(expr) {
+//   // TODO: Your awesome code here
+//   let arr,newArr=[],nubmer,string='';
+//   console.log(expr);
+//   if(expr.length==0)
+//     return 0;
+//   arr = expr.split(" ");
+//   if(!isNaN(+arr[2]))
+//     return +arr[2];
+//   arr.map(function(val){
+//   	console.log(newArr[0]+val+newArr[1])
+//       if(!isNaN(+val))
+//       	string+=val;
+//         newArr.push(val);
+//       else{
+//       		number = eval(newArr[0]+val+newArr[1]);
+//       		newArr.length = 0;
+//       		newArr.push(number);
+//   		}
+//   });
+//   return newArr[0];
+// }
+// calc('4 2 / 3 4 /');
+
+// var onoff = true;
+// $("button").click(function(){
+// 	if(onoff){
+// 		$('#type1').attr('checked',true)
+// 		$('#type2').attr('checked',false)
+// 	}
+// 	else{
+// 		$('#type2').attr('checked',true)
+// 		$('#type1').attr('checked',false)
+// 	}
+// 	onoff = !onoff;
+// })
+
+// var arr = [1,2,3,4];
+// arr.copyWithin(0,2);
+// //arr.fill(7)
+// console.log(arr);
+// let it = arr.findIndex(function(val,index){
+// 	return val>2;
+// });	
+
+// // for(let i of arr.keys())
+// // 	console.log(i)
+// console.log(arr.includes(2))
+// var obj = {
+// 	'he' : 1,
+// 	'ha' :2
+// };
+// console.log(Object.values(obj));
+// async function fn(){
+// 	return new Promise(function(resolve){
+// 		setTimeout(function(){
+// 			resolve('hello');
+// 		},1000)	
+// 	})
+// }
+// function fn1(){
+// 	return new Promise(function(resolve){
+// 		setTimeout(function(){
+// 			resolve('man');
+// 		},1000)	
+// 	})
+// }
+
+// var  callAjax = async function(){
+// 	var it = await fn();
+// 	var the = await fn1();
+// 	console.log(it+'all ok'+the);
+// }
+// console.log(callAjax())
+// function* callAjax(){
+// 	yield fn();
+// 	yield fn1();
+// 	console.log("all");
+// }
+// let it = callAjax();
+// it.next();
+// console.log(it.next())
+// it.next();
+// async function f() {
+//   await Promise.reject('出错了')
+//     .catch(e => console.log(e));
+//   return new Promise(function(resolve){
+//   	setTimeout(function(){
+//   		resolve('hello')
+//   	},1000)
+//   });
+ 
+  
+
+// //  return await Promise.resolve('hello world');
+// }
+
+// f().then(v => console.log(v))
+
+// var animation = [
+// 	function(){
+// 		console.log(1);
+// 		return 1;
+// 	},
+// 	function(){
+// 		console.log(2);
+// 		return 2;
+// 	},
+// 	function(){
+// 		console.log(3);
+// 		return c*2;
+// 	},
+// 	function(){
+// 		console.log(4);
+// 		return 4;
+// 	}
+// ];
+// function getAnimation(animation){
+// 	var promise = Promise.resolve();
+// 	var last = null;
+// 	for(let i of animation)
+// 		promise = promise.then(function(val){
+// 			last = val;
+// 			return i();
+// 		})
+
+// 	return promise.catch(function(val){
+		
+// 	}).then(function(val){
+// 		return last;
+// 	})
+// }
+// let it = getAnimation(animation);
+// console.log(it)
+// function doSomething() { 
+// alert(this); 
+// } 
+// doSomething();
+// document.getElementsByTagName('button')[0].onclick = doSomething;
+
+// var origin = [  
+//     {id:1,title:'title1'},  
+//     {id:2,title:'abcd'},  
+//     {id:3,title:'title2'},  
+//     {id:4,title:'efg'}  
+// ];  
+  
+// var find = function(data){  
+//     // your code here
+//     var origin = data;
+//     var order = function(...arg){
+//     	return origin.sort(function(val1,val2){
+//     		if(arg[1]==='desc')
+//     			return val1[arg[0]]<val2[arg[0]];
+//     	})
+//     	return result;
+//     }
+//     var where = function(arg){
+//     	origin = origin.filter(function(val){
+//     		let index = Object.keys(arg)[0];
+//     		console.log(val[index])
+//     		return arg[index].test(val[index])
+//     		return arg.keys()[0].test(val[arg[0]]) 
+//     	})
+//     	return {
+//     		order : order
+//     	}
+//     }
+//     return {
+//     	where : where
+//     }
+// }  
+  
+// var result = find(origin).where({'title':/\d$/}).order('id','desc'); //desc 非递增  
+// console.log(result);  //  [{id:3,title:'title2'},{id:1,title:'title1'}]  
+
+// function fn(){
+// 	var array = new Array;
+// 	return Array.from(arguments).sort(function(val1,val2){
+// 		return val1>val2;
+// 	})
+
+// }
+// var it = fn(13,2,342,23,3)
+// console.log(it)
+// var num = '1';
+// num.split(',')
+// console.log(num)
+// var arr =  [1,2,3];
+// console.log(arr.find(function(val){
+// 	return val==4;
+// }));
+// function Type(){
+// 	y = function(){
+// 		x = 2;
+// 	}
+// 	return function(){
+// 		var x = 3;
+// 		y();
+// 		console.log(this.x);
+// 	}.apply(this,arguments);
+// }
+// Type();
+// var str = '{a : 1,b :}';
+// try{
+// 	JSON.parse(str);	
+// }catch(e){
+// 	console.log(e);
+// }
+// 1 5 3 8 8 5 6
+// 1
+// class Stack {
+	
+// 	constructor(){
+// 		this._arr = [];
+// 		this.arr
+// 	}
+// 	push (val){
+// 		this._arr.push(val)
+// 	}
+// 	pop (val){
+// 		this._arr.pop(val);
+// 	}
+// 	length (){
+// 		return this._arr.length;
+// 	}
+	
+// 	get arr(){
+// 		console.log('all')
+// 	}
+// };
+// let stack = new Stack();
+// stack.push(1);
+// stack.push(2);
+// stack._arr.shift();
+// console.log(stack.length())
+var a = {
+	bar : 1,
+	methodA (){
+		console.log(this.bar);
+	}
+}
+var b = {
+	bar : 2,
+	methodA (){
+		console.log(this.bar);
+	}
+}
+Object.defineProperty(b,'bar',{
+	get (){
+		console.log(b)
+		return this.val;
+		//return this.val||b.bar;
+	},
+	set (val){
+		a.bar = val;
+
+		this.val = val;
+	}
+})
+b.methodA();
+b.bar = 3;
+a.methodA();
+b.methodA();
+
+// let n = 3;
+// for(let i =0;i<n;i++){
+// 	setTimeout(function(){
+// 		console.log(i+1);
+// 	},1000*i)
+// }
+// let url = 'http://www.wacai.com/login?a=1&b=2&a=3&c'
+// url = url.split('?')[1];
+// url = url.split('&');
+// let obj = {};
+// for(let i = 0;i<url.length;i++){
+// 	str = url[i].split('=');
+// 	obj[str[1]] = str[0]||'';
+// }
+// let hash = {};
+// for(let key in obj){
+// 	if(hash[obj[key]]){
+// 		hash[obj[key]] = [...hash[obj[key]],...key];
+// 	}else
+// 		hash[obj[key]] = key;
+
+// }
+// console.log(hash)
+</script>
+</html>

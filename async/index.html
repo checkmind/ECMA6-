@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	function asyncFn(){
+		return new Promise(function(resolve){
+			setTimeout(function(){
+				resolve(4);
+				console.log(2);
+			},300);
+		})
+	};
+	/*
+	await 后面可以跟promise对象，也可以跟一般对象，不过没有什么意义。
+	\*/
+	async function callName(){
+		console.log(1);
+		await asyncFn().then(function(){  
+			console.log(4);
+		})
+		console.log(3);
+	}
+	function* callName(){
+		yield asyncFn();
+		console.log(1);
+		yield 1;
+		console.log(2);
+		
+		console.log(3);
+		yield 3;
+		
+	}
+	let it = callName();
+	it.next();
+	it.next();
+	it.next();
+	
+</script>
+</html>
