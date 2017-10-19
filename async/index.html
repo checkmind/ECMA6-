@@ -35,10 +35,25 @@
 		yield 3;
 		
 	}
-	let it = callName();
-	it.next();
-	it.next();
-	it.next();
-	
+	// let it = callName();
+	// it.next();
+	// it.next();
+	// it.next();
+	function Parent(age) {
+		this.age = age;
+		this.sayAge=function()
+		{
+		console.log(this.age);
+		}
+	}
+	Parent.prototype.sayParent = function() {
+		alert("this is parentmethod!!!");
+	}
+	function child(){
+
+	}
+	child.prototype = Parent.prototype;
+	let childs = new child();
+	console.log(childs);
 </script>
 </html>
