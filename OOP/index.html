@@ -72,7 +72,8 @@
 // console.log(SuperType.prototype.isPrototypeOf(instance1));  //true
 	
 	function Parent(age) {
-		this.age = 4;
+		this.age = age;
+		this.friends=["gay1","gay2"];
 		this.sayAge=function()
 		{
 		console.log(this.age);
@@ -81,18 +82,40 @@
 	Parent.prototype.names = 'duhao';
 
 	function Child(){
-		Parent.call(this,arguments)
+		Parent.call(this,arguments[0])
 	}
-	Child.prototype = new Parent();
+	//Child.prototype = new Parent();
 	
-	//Child.constructor = Child;
+	// //Child.constructor = Child;
 
+	// let child = new Child(54);
+	// let child2 = new Child(2);
+	
+	// child.names = 'safd';
+	// console.log(child2.names)
+
+	// Child.prototype = new Parent(5);
+	// let people = new Child();
+	// people.age = 4;
+	// people.friends.push('lalal');
+	// let people2 = new Child();//5
+	function extend(parent){
+		function fn(){};
+		fn.prototype = parent;
+		return new fn();
+	}
+	// function initPrototype(child,parent){
+	// 	let proto = extend(parent.prototype);
+	// 	child.constructor = child;
+	// 	child.prototype = proto;	
+	// }
+	// Child.prototype = Parent.prototype;
+	// Child.prototype.constructor = Child;
+	//initPrototype(Child,Parent);
+	Child.prototype = new Parent();
 	let child = new Child();
-	child.age = 5;
-	child.sayAge();
-	let child2 = new Child();
-	console.log(child2)
-	console.log(child instanceof Parent)
+	console.log(child)
+
 
 
 </script>
