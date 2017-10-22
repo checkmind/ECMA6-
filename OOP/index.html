@@ -14,7 +14,9 @@
 	<title></title>
 </head>
 <body>
-
+<button class="btn">按钮</button>
+<button class="btn">按钮</button>
+<button class="btn">按钮</button>
 </body>
 <script type="text/javascript">
 
@@ -116,7 +118,33 @@
 	let child = new Child();
 	console.log(child)
 
+	//命令模式
+	
+	
+	let commands = {
+		delete (){
+			console.log('deltet')
+		},
+		add (){
 
-
+		}
+	}
+	
+	 function setCommand(el,command){
+		el.onclick = function(){
+			command.method();
+		}
+	}
+	function DeleteBtn(commands){
+		this.commands = commands;
+	}
+	DeleteBtn.prototype.method = function(){
+		this.commands.delete();
+	}
+	let deleteBtn = new DeleteBtn(commands);
+	let btn = document.querySelectorAll('.btn');
+	setCommand(btn[0],deleteBtn);
+	setCommand(btn[1],deleteBtn);
+	setCommand(btn[2],deleteBtn);
 </script>
 </html>

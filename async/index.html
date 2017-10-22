@@ -10,8 +10,8 @@
 	function asyncFn(){
 		return new Promise(function(resolve){
 			setTimeout(function(){
-				resolve(4);
-				console.log(2);
+				resolve('lala');
+				return 'duhao';
 			},300);
 		})
 	};
@@ -20,25 +20,24 @@
 	\*/
 	async function callName(){
 		console.log(1);
-		await asyncFn().then(function(){  
-			console.log(4);
-		})
-		console.log(3);
+		let  a = await asyncFn()
+		console.log(a);
 	}
-	function* callName(){
-		yield asyncFn();
-		console.log(1);
-		yield 1;
-		console.log(2);
+	// function* callName(){
+	// 	yield asyncFn();
+	// 	console.log('lala');
+	// 	yield 1;
+	// 	console.log(2);
 		
-		console.log(3);
-		yield 3;
+	// 	console.log(3);
+	// 	yield 3;
 		
-	}
+	// }
 	// let it = callName();
 	// it.next();
 	// it.next();
 	// it.next();
+	callName();
 	function Parent(age) {
 		this.age = age;
 		this.sayAge=function()
@@ -55,5 +54,7 @@
 	child.prototype = Parent.prototype;
 	let childs = new child();
 	console.log(childs);
+
+
 </script>
 </html>

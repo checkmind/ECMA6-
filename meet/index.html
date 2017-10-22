@@ -90,5 +90,114 @@
 	people.friends.push('duhao');
 	let people2 = new Child();
 	console.log(people.friends,people2.age); //['duhao'] 2
+
+	var out =  25,
+		inner = {
+			out : 20,
+			func : function(){
+				var out = 30;
+				console.log(1);
+				return this.out
+		    }
+		}
+function fn(...arg){
+	arg[2] = 10;
+
+	console.log(arg);
+}
+fn(1,2,3);
+function arrayIndex(arr1,arr2){
+	let arr = [];
+	arr1.map(function(val){
+		if(arr2.indexOf(val)===-1){
+			arr.push(val);
+		}
+	});
+	console.log(arr);
+};
+
+//算法
+//排序类
+//快速排序
+let arr = [2,3,4,52,1,67,34376,324,2,57,4354,72];
+function fastSort(arr){
+	let mid,
+		left=[],
+		right=[];
+	if(arr.length <=1)
+		return arr;
+	mid = arr[Math.floor(arr.length/2)]; //center num
+	left = [];
+	right = [];
+	arr.map(function(val){
+		if(val>mid)
+			right.push(val);
+		if(val<mid)
+			left.push(val);
+	})
+	return [].concat(fastSort(left),mid,fastSort(right));
+}
+//冒泡排序
+function scopeSort(arr){
+	let len = arr.length,
+		now;
+	for(let i=0;i<len;i++){
+		for(let j =0;j<len-i-1;j++){
+			if(arr[j]>arr[j+1]){
+				now = arr[j];
+				arr[j] = arr[j+1];
+				arr[j+1] = now;
+			}
+		}
+	}
+}
+//折中查找
+function halfFind(arr,val){
+	let mind = Math.floor(arr.length/2);
+	while(mind>=0){
+		
+		if(val==arr[mind])
+			return val;
+		if(val>arr[mind]){
+			arr = arr.splice(mind,arr.length-1);
+		}else{
+			arr = arr.splice(0,mind);
+		}
+		mind = Math.floor(arr.length-1/2);
+	
+	}
+	return 'can not find';
+}
+console.log(halfFind([1,2,3,4,5],0));
+
+function fn(){
+	let ret = '';
+	ret+=arguments[0];
+	let callFn = function(){
+		ret+=arguments[0];
+		return callFn;
+	}
+	callFn.toString = function(){
+		console.log(ret)
+		return ret
+	};
+	return callFn;
+}
+
+
+//定时器研究
+//第一个推入队列中
+setTimeout(function(){
+  console.log("1");
+},0);
+//第三个推入队列中
+setTimeout(function(){
+ console.log("2");
+},1000);
+//第二个推入队列中
+setTimeout(function(){
+  console.log("3");
+},0);
+
 </script>
 </html>
