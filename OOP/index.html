@@ -106,17 +106,19 @@
 		fn.prototype = parent;
 		return new fn();
 	}
-	// function initPrototype(child,parent){
-	// 	let proto = extend(parent.prototype);
-	// 	child.constructor = child;
-	// 	child.prototype = proto;	
-	// }
-	// Child.prototype = Parent.prototype;
-	// Child.prototype.constructor = Child;
-	//initPrototype(Child,Parent);
-	Child.prototype = new Parent();
-	let child = new Child();
-	console.log(child)
+	function initPrototype(child,parent){
+		let proto = extend(parent.prototype);
+		child.constructor = child;
+		child.prototype = proto;	
+	}
+	Child.prototype = Parent.prototype;
+	Child.prototype.constructor = Child;
+	initPrototype(Child,Parent);
+	let child1= new Child();
+	console.log(child1 instanceof Parent);
+	// Child.prototype = new Parent();
+	// let child = new Child();
+	// console.log(child)
 
 	//命令模式
 	
