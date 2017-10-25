@@ -95,7 +95,7 @@
 	}
 	function initProto(child,parent){
 		let proto = extend(parent.prototype);
-		child.prototype.constructor = child;
+		proto.constructor = child;
 		child.prototype = proto;
 	}
 	initProto(Child,Parent);
@@ -103,8 +103,10 @@
 在extend方法里，我们创建了一个空的构造函数，并将父类的原型赋值给它(这只让这个空类继承了原型上的方法和属性)  
 然后，再让子类原型继承这个空构造函数。此时子类用有了父类原型上的方法，然后再通过伪造继承，子类继承父类的内部属性和方法。  
 至此，继承完结撒花...  
-挖财面试遗留问题  
-子类的实例的 instanceof 继承父类之后为true。这个问题明天解决。
 
+### instanceof 和 constructor  
+instanceof是用来判断一个构造函数的prototype属性所指向的对象是否存在于另一个要监测的对象的原型链上。 比如我们最后将的继承的终极解决方案中，`new Child() instancof Parent`应该为true。（Parent.prototype 存在于new Child()的原型链上）`new Child() instancof Child`也应该为true。（Child.prototype 存在于new Child()的原型链上）所以这个字段可以用来判断实例是否继承自指定父类。即使是多重继承也可以判断  
 
-
+而constructor返回了创建此对象的函数引用。也可以理解为实例的父函数。当我们调用obj.constructor时，我们会在obj.__proto__中查找constructor字段，找到第一个即返回该属性。  
+而该属性是在何时被赋予的呢？  
+当我们第一次new父类的时候，会将父类的prototype属性赋值给新实例，而这个constructor属性便存在于父类的prototype属性中。这样也解释了我们为什么要在寄生组合继承中改变父类原型链上面的constructor属性。（因为我们总是关心父类，而不是爷类...）  

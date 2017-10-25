@@ -108,7 +108,7 @@
 	}
 	function initPrototype(child,parent){
 		let proto = extend(parent.prototype);
-		child.constructor = child;
+		proto.constructor = child;
 		child.prototype = proto;	
 	}
 	Child.prototype = Parent.prototype;
