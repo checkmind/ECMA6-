@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>promise 源码分析</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	
+/*
+	Promise resolve 立即执行
+	1，如果参数是promise对象，则返回该promise
+	2，如果参数是thenabel对象（有then方法的对象），则立即执行then方法。
+	3，如果参数是普通变量，则返回一个resolve状态的promise对象。
+	4，如果参数为空，则跟3一样。
+*/
+
+//不带参数的resolve,执行顺序应该是 1,2,3 因为then的执行顺序在本轮事件之末。
+	// setTimeout(function(){
+	// 	console.log(3);
+	// })
+	// Promise.resolve()
+	// .then(function() {
+	//   	console.log(2);
+	// })
+	// console.log(1);
+
+//带普通参数的resolve，跟不带参数原理一样。
+	// setTimeout(function(){
+	// 		console.log(3);
+	// 	})
+	// Promise.resolve(2)
+	// .then(function(num) {
+	//   	console.log(num);
+	// })
+	// console.log(1);
+//参数是thenable的resolve
+	// let thenable = {
+	// 	then : function(resolve,reject){
+	// 		setTimeout(function(){
+	// 			resolve(2);
+	// 		},1000)
+	// 	}
+	// }
+	// let i = 0;
+	// let promise = Promise.resolve(thenable);
+	// while(i<3){
+	// 	i++;
+	// 	promise = promise.then(function(num){
+	// 				console.log(num);
+	// 				return thenable;
+	// 			})
+	// }
+
+//先触发promise状态，再绑定事件，也会触发,同样的在事件队列结束的时候被调用。
+	// let promise = Promise.resolve(4);
+	// setTimeout(function(){
+	// 	promise.then(function(num){
+	// 		console.log(num);
+	// 	})
+	// 	console.log(3);
+	// 	setTimeout(function(){
+	// 		console.log(5)
+	// 	});
+	// },1000)
+
+//模拟Promise
+
+// 对状态转换事件处理函数进行封装后，再传给执行函数
+    function doResolve(fn, onFulfilled, onRejected) {
+      // done作为开关以防止fn内同时调用resolve和reject方法
+      var done = false;
+      try {
+        fn(function(value) {
+          if (done) return;
+          done = true;
+          onFulfilled(value);
+        }, function(reason) {
+          if (done) return;
+          done = true;
+          onRejected(reason);
+        });
+      } catch (ex) {
+        if (done) return;
+        done = true;
+        onRejected(ex);
+      }
+    }
+    // 构造promise的链表逻辑结构
+function Handler(onFulfilled, onRejected, resolve, reject) {
+  this.onFulfilled = typeof onFulfilled === "function" ? onFulfilled : null; // 当前promise的状态转换事件处理函数
+  this.onRejected = typeof onRejected === "function" ? onRejected : null; // 当前promise的状态转换事件处理函数
+  this.resolve = resolve; // 设置链表中下一个promise的状态为fulfilled
+  this.reject = reject; // 设置链表中下一个promise的状态为rejected
+}
+// new Promise(function(resolve){
+// 	setTimeout(function(){
+// 		resolve(3);
+// 	},3000)
+// }).then(function(num){
+// 	console.log(num)
+// })
+var Promise = exports.Promise = function (fn) {
+      if (typeof this !== "object") throw new TypeError("Promises must be constructed via new");
+      if (typeof fn !== "function") throw new TypeError("not a function");
+      var state = null; // 状态，null：pending，true：fulfilled，false：rejected
+      var value = null; // 当前promise的状态事件处理函数（onFulfilled或onRejected）的入参
+      var deferreds = []; // 当前promise的状态事件处理函数和promise链表中下一个promise的状态转换发起函数
+      var self = this;
+      // 唯一的公开方法
+      this.then = function(onFulfilled, onRejected) {
+        return new self.constructor(function(resolve, reject) {
+          handle(new Handler(onFulfilled, onRejected, resolve, reject));
+        });
+      };
+      // 保存和执行deferreds数组中的元素
+      function handle(deferred) {
+        if (state === null) {
+          deferreds.push(deferred);
+          return;
+        }
+        // asap的作用为将入参的操作压入event loop队列中
+        asap(function() {
+          var cb = state ? deferred.onFulfilled : deferred.onRejected;
+          if (cb === null) {
+            (state ? deferred.resolve : deferred.reject)(value);
+            return;
+          }
+          var ret;
+          try {
+            // 执行当前promise的状态转换事件处理函数
+            ret = cb(value);
+          } catch (e) {
+            // 修改promise链表中下一个promise对象的状态为rejected
+            deferred.reject(e);
+            return;
+          }
+          // 修改promise链表中下一个promise对象的状态为fulfilled
+          deferred.resolve(ret);
+        });
+      }
+      // promise的状态转换发起函数，触发promise的状态从pending->fulfilled
+      function resolve(newValue) {
+        try {
+          if (newValue === self) throw new TypeError("A promise cannot be resolved with itself.");
+          if (newValue && (typeof newValue === "object" || typeof newValue === "function")) {
+            var then = newValue.then;
+            if (typeof then === "function") {
+              // 将控制权移交thenable和promise对象，由它们来设置当前pormise的状态和状态转换事件处理函数的实参
+              doResolve(then.bind(newValue), resolve, reject);
+              return;
+            }
+          }
+          state = true;
+          value = newValue;
+          finale();
+        } catch (e) {
+          reject(e);
+        }
+      }
+      // promise的状态转换发起函数，触发promise的状态从pending->rejected
+      function reject(newValue) {
+        state = false;
+        value = newValue;
+        finale();
+      }
+      // 向链表的下一个promise移动
+      function finale() {
+        for (var i = 0, len = deferreds.length; i < len; i++) handle(deferreds[i]);
+        deferreds = null;
+      }
+      // 执行构造函数的工厂方法，由工厂方法触发promise的状态转换
+      doResolve(fn, resolve, reject);
+    }
+	
+</script>
+</html>
